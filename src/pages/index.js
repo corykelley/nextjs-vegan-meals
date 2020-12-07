@@ -1,17 +1,20 @@
-import Head from 'next/head';
-import styles from '../styles/Home.module.css';
-
 export default function Home() {
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
-
-      <main className={styles.main}>
-        <h1>Hi there!</h1>
-      </main>
+    <div>
+      <form className='recipe-search'>
+        <input type='text' />
+        <button type='submit'>Find Recipe</button>
+      </form>
+      <section className='popular-recipes'>
+        <h2>Popular Recipes</h2>
+        <ul>
+          <li>Recipe</li>
+          <li>Recipe</li>
+          <li>Recipe</li>
+          <li>Recipe</li>
+          <li>Recipe</li>
+        </ul>
+      </section>
     </div>
   );
 }
