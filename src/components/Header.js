@@ -33,11 +33,12 @@ const StyledHeader = styled.header`
   flex-direction: row;
   justify-content: space-between;
   align-items: baseline;
+  padding: 2rem 0;
 
   ul {
     display: flex;
     flex-direction: row;
-    gap: 1.5rem;
+    gap: 2.5rem;
   }
 
   a {
