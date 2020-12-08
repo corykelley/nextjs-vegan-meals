@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export default function Home() {
+export default function Home({ randomRecipe }) {
   return (
     <>
       <StyledForm className='recipe-search'>
@@ -8,18 +8,30 @@ export default function Home() {
         <button type='submit'>Find Recipe</button>
       </StyledForm>
       <section className='popular-recipes'>
-        <h2>Popular Recipes</h2>
-        <ul>
-          <li>Recipe</li>
-          <li>Recipe</li>
-          <li>Recipe</li>
-          <li>Recipe</li>
-          <li>Recipe</li>
-        </ul>
+        <h2>Try this recipe:</h2>
+        <img src={randomRecipe.image} alt={randomRecipe.title} />
+        <h3>{randomRecipe.title}</h3>
+        <div dangerouslySetInnerHTML={{ __html: randomRecipe.summary }} />
+        {/* TODO setup button and on click grab recipe id and generate page where user can see step by step to create dish. */}
       </section>
     </>
   );
 }
+
+export const getStaticProps = async () => {
+  const request = await fetch(
+    `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_SECRET}&diet=vegan&addRecipeInformation=true`
+  );
+  const data = await request.json();
+
+  const randomNum = Math.floor(Math.random() * data.results.length);
+
+  const randomRecipe = data.results[randomNum];
+
+  return {
+    props: { randomRecipe },
+  };
+};
 
 const StyledForm = styled.form`
   margin: 0.5rem auto;
