@@ -1,11 +1,28 @@
 import styled from '@emotion/styled';
+import { useState } from 'react';
 
 export default function Home({ randomRecipe }) {
+  const [recipeName, setRecipeName] = useState('');
+
+  const handleSearch = async e => {
+    e.preventDefault();
+    alert('you did something cool');
+    setRecipeName('');
+  };
+
   return (
     <>
       <StyledForm className='recipe-search'>
-        <input type='text' />
-        <button type='submit'>Find Recipe</button>
+        <form>
+          <input
+            type='text'
+            value={recipeName}
+            onChange={e => setRecipeName(e.target.value)}
+          />
+          <button type='submit' onClick={handleSearch}>
+            Find Recipe
+          </button>
+        </form>
       </StyledForm>
       <section className='popular-recipes'>
         <h2>Try this recipe:</h2>
