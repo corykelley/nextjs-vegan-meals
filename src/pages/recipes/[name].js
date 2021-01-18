@@ -1,13 +1,21 @@
+import { useRouter } from 'next/router';
+
 export default function Recipe({ recipeName, data }) {
+	const router = useRouter();
+
 	return (
 		<>
-			{data.meals.map((recipe) => (
-				<article key={recipe.strMeal}>
-					<img src={recipe.strMealThumb} alt={recipe.strMeal} />
-					<h1>{recipe.strMeal}</h1>
-					<p>{recipe.strInstructions}</p>
-				</article>
-			))}
+			{router.isFallback ? (
+				<div>...loading</div>
+			) : (
+				data.meals.map((recipe) => (
+					<article key={recipe.strMeal}>
+						<img src={recipe.strMealThumb} alt={recipe.strMeal} />
+						<h1>{recipe.strMeal}</h1>
+						<p>{recipe.strInstructions}</p>
+					</article>
+				))
+			)}
 		</>
 	);
 }
@@ -37,8 +45,6 @@ export const getStaticProps = async ({ params }) => {
 		`https://www.themealdb.com/api/json/v1/1/search.php?s=${params.name}`
 	);
 	const data = await request.json();
-
-	console.log('this is data', data);
 
 	return {
 		props: {

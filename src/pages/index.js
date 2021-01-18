@@ -5,8 +5,6 @@ import styled from '@emotion/styled';
 export default function Home({ randomRecipe }) {
 	const [recipeName, setRecipeName] = useState('');
 
-	console.log(randomRecipe);
-
 	return (
 		<>
 			<StyledForm className='recipe-search'>
