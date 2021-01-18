@@ -5,6 +5,8 @@ import styled from '@emotion/styled';
 export default function Home({ randomRecipe }) {
 	const [recipeName, setRecipeName] = useState('');
 
+	console.log(randomRecipe);
+
 	return (
 		<>
 			<StyledForm className='recipe-search'>
@@ -19,9 +21,8 @@ export default function Home({ randomRecipe }) {
 			</StyledForm>
 			<section className='popular-recipes'>
 				<h2>Try this recipe:</h2>
-				<img src={randomRecipe.image} alt={randomRecipe.title} />
-				<h3>{randomRecipe.title}</h3>
-				<div dangerouslySetInnerHTML={{ __html: randomRecipe.summary }} />
+				<img src={randomRecipe.strMealThumb} alt={randomRecipe.strMeal} />
+				<h3>{randomRecipe.strMeal}</h3>
 			</section>
 		</>
 	);
@@ -29,13 +30,15 @@ export default function Home({ randomRecipe }) {
 
 export const getStaticProps = async () => {
 	const request = await fetch(
-		`https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_SECRET}&diet=vegan&addRecipeInformation=true`
+		// `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_SECRET}&diet=vegan&addRecipeInformation=true`
+
+		`https://www.themealdb.com/api/json/v1/1/filter.php?c=vegan`
 	);
 	const data = await request.json();
 
-	const randomNum = Math.floor(Math.random() * data.results.length);
+	const randomNum = Math.floor(Math.random() * data.meals.length);
 
-	const randomRecipe = data.results[randomNum];
+	const randomRecipe = data.meals[randomNum];
 
 	return {
 		props: { randomRecipe },

@@ -12,16 +12,16 @@ const Header = () => {
 							<a>Search</a>
 						</Link>
 					</li>
-					<li>
+					{/* <li>
 						<Link href='#'>
 							<a>Browse</a>
 						</Link>
-					</li>
-					<li>
+					</li> */}
+					{/* <li>
 						<Link href='#'>
 							<a>About</a>
 						</Link>
-					</li>
+					</li> */}
 				</ul>
 			</nav>
 		</StyledHeader>
