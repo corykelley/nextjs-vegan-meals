@@ -1,15 +1,38 @@
 import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
 
-export default function Recipe({ recipeData }) {
+export default function Recipe({ recipeName, data }) {
 	const router = useRouter();
 	const { name } = router.query;
 
+	console.log('this is from gsp', data.results);
+
 	return (
 		<>
-			<h1>Hello</h1>
-			<h1>this is just testing a dyanmic route</h1>
-			<i>{name}</i>
+			{data.results.map((recipe) => (
+				<h1>{recipe.title}</h1>
+			))}
 		</>
 	);
 }
+
+export const getStaticPaths = async () => {
+	return {
+		paths: [{ params: { name: 'pasta' } }, { params: { name: 'greek' } }],
+		fallback: true,
+	};
+};
+
+export const getStaticProps = async ({ params }) => {
+	const request = await fetch(
+		`https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_SECRET}&diet=vegan&addRecipeInformation=true&query=${params.name}`
+	);
+
+	const data = await request.json();
+
+	return {
+		props: {
+			data,
+		},
+	};
+};
