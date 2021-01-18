@@ -1,80 +1,72 @@
-import styled from '@emotion/styled';
 import { useState } from 'react';
+import Link from 'next/link';
+import styled from '@emotion/styled';
 
 export default function Home({ randomRecipe }) {
-  const [recipeName, setRecipeName] = useState('');
+	const [recipeName, setRecipeName] = useState('');
 
-  const handleSearch = async e => {
-    e.preventDefault();
-    alert('you did something cool');
-    setRecipeName('');
-  };
-
-  return (
-    <>
-      <StyledForm className='recipe-search'>
-        <form>
-          <input
-            type='text'
-            value={recipeName}
-            onChange={e => setRecipeName(e.target.value)}
-          />
-          <button type='submit' onClick={handleSearch}>
-            Find Recipe
-          </button>
-        </form>
-      </StyledForm>
-      <section className='popular-recipes'>
-        <h2>Try this recipe:</h2>
-        <img src={randomRecipe.image} alt={randomRecipe.title} />
-        <h3>{randomRecipe.title}</h3>
-        <div dangerouslySetInnerHTML={{ __html: randomRecipe.summary }} />
-        {/* TODO setup button and on click grab recipe id and generate page where user can see step by step to create dish. */}
-      </section>
-    </>
-  );
+	return (
+		<>
+			<StyledForm className='recipe-search'>
+				<input
+					type='text'
+					value={recipeName}
+					onChange={(e) => setRecipeName(e.target.value)}
+				/>
+				<Link href={`/recipes/${recipeName}`}>
+					<button type='submit'>Find Recipe</button>
+				</Link>
+			</StyledForm>
+			<section className='popular-recipes'>
+				<h2>Try this recipe:</h2>
+				<img src={randomRecipe.image} alt={randomRecipe.title} />
+				<h3>{randomRecipe.title}</h3>
+				<div dangerouslySetInnerHTML={{ __html: randomRecipe.summary }} />
+			</section>
+		</>
+	);
 }
 
 export const getStaticProps = async () => {
-  const request = await fetch(
-    `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_SECRET}&diet=vegan&addRecipeInformation=true`
-  );
-  const data = await request.json();
+	const request = await fetch(
+		`https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_SECRET}&diet=vegan&addRecipeInformation=true`
+	);
+	const data = await request.json();
 
-  const randomNum = Math.floor(Math.random() * data.results.length);
+	const randomNum = Math.floor(Math.random() * data.results.length);
 
-  const randomRecipe = data.results[randomNum];
+	const randomRecipe = data.results[randomNum];
 
-  return {
-    props: { randomRecipe },
-  };
+	return {
+		props: { randomRecipe },
+	};
 };
 
 const StyledForm = styled.form`
-  margin: 0.5rem auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+	margin: 0.5rem auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 
-  input {
-    padding: 0.65rem 0.5rem;
-    border-radius: 10px;
-    border: var(--grey) 1px solid;
-    margin-bottom: 1rem;
-    max-width: 500px;
-    width: 100%;
-  }
+	input {
+		padding: 0.65rem 0.5rem;
+		border-radius: 10px;
+		border: var(--grey) 1px solid;
+		margin-bottom: 1rem;
+		max-width: 500px;
+		width: 100%;
+	}
 
-  button {
-    max-width: 200px;
-    padding: 0.65rem 0.5rem;
-    border-radius: 10px;
-    border: var(--grey) 1px solid;
-    transition: 300ms;
+	button {
+		max-width: 200px;
+		padding: 0.65rem 0.5rem;
+		border-radius: 10px;
+		border: var(--grey) 1px solid;
+		transition: 300ms;
 
-    :hover {
-      color: #fff;
-      background-color: var(--black);
-    }
-  }
+		:hover {
+			color: #fff;
+			background-color: var(--black);
+		}
+	}
 `;
