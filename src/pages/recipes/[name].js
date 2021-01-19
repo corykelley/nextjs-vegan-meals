@@ -9,6 +9,7 @@ export default function Recipe({ data }) {
 
 	return (
 		<>
+			{router.isFallback && <div>...loading</div>}
 			{data.results.length === 0 ? (
 				<Link href='/'>
 					Oops, we didn't find anything, click me to try again!
@@ -56,7 +57,7 @@ export const getStaticPaths = async () => {
 
 	return {
 		paths,
-		fallback: false,
+		fallback: true,
 	};
 };
 
