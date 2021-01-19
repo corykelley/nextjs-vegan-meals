@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import Image from 'next/image';
 import Link from 'next/link';
 import styled from '@emotion/styled';
 
@@ -18,13 +17,7 @@ export default function Recipe({ data }) {
 				data.results.map((meal) => (
 					<StyledRecipe key={meal.title}>
 						<div className='recipe-image'>
-							<Image
-								src={meal.image}
-								alt={meal.title}
-								height={200}
-								width={200}
-								layout='fixed'
-							/>
+							<img src={meal.image} alt={meal.title} />
 						</div>
 						<div className='recipe-info'>
 							<h1>{meal.title}</h1>
@@ -98,6 +91,11 @@ const StyledRecipe = styled.article`
 	.recipe-image {
 		width: 200px;
 		height: 200px;
+
+		img {
+			width: 200px;
+			height: 200px;
+		}
 	}
 
 	.recipe-details {
@@ -109,5 +107,9 @@ const StyledRecipe = styled.article`
 		color: white;
 		padding: 0.5rem 1rem;
 		border-radius: 3px;
+	}
+
+	@media (max-width: 750px) {
+		flex-direction: column;
 	}
 `;
