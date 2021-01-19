@@ -17,26 +17,25 @@ export default function Home({ randomRecipe }) {
 					<button type='submit'>Find Recipe</button>
 				</Link>
 			</StyledForm>
-			<section className='popular-recipes'>
+			<StyledSection>
 				<h2>Try this recipe:</h2>
-				<img src={randomRecipe.strMealThumb} alt={randomRecipe.strMeal} />
-				<h3>{randomRecipe.strMeal}</h3>
-			</section>
+				<img src={randomRecipe.image} alt={randomRecipe.title} />
+				<h3>{randomRecipe.title}</h3>
+				<div dangerouslySetInnerHTML={{ __html: randomRecipe.summary }} />
+			</StyledSection>
 		</>
 	);
 }
 
 export const getStaticProps = async () => {
 	const request = await fetch(
-		// `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_SECRET}&diet=vegan&addRecipeInformation=true`
-
-		`https://www.themealdb.com/api/json/v1/1/filter.php?c=vegan`
+		`https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_SECRET}&diet=vegan&addRecipeInformation=true`
 	);
 	const data = await request.json();
 
-	const randomNum = Math.floor(Math.random() * data.meals.length);
+	const randomNum = Math.floor(Math.random() * data.results.length);
 
-	const randomRecipe = data.meals[randomNum];
+	const randomRecipe = data.results[randomNum];
 
 	return {
 		props: { randomRecipe },
@@ -69,5 +68,16 @@ const StyledForm = styled.form`
 			color: #fff;
 			background-color: var(--black);
 		}
+	}
+`;
+
+const StyledSection = styled.section`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+
+	div {
+		padding: 0.5rem 1rem;
 	}
 `;
